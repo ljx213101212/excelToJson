@@ -10,18 +10,17 @@ class OutLineText extends React.Component {
         }
     };
 
-    updateTextArea(data, sequenceArray, selectedOption, optionIndexMap){
+    updateTextArea(data, selectedOption, optionIndexMap, keyIndex){
         var self = this;
         this.resultArray = [];
-        if (!IsNotBlankArray(data) || !IsNotBlankArray(sequenceArray) || !selectedOption
-        || !optionIndexMap) { return ;}
-        sequenceArray.forEach((val, index) => {
+        if (!IsNotBlankArray(data)  || !selectedOption
+        || !optionIndexMap) { return ;}        
+        data.forEach((val, index) => {
             if (index === 0) { return;}
-            if (!IsNotBlankArray(data[index])){return;}
             var currIndex = optionIndexMap[selectedOption.value];
-            const key = val;
+            const key = data[index][keyIndex];
             const value = data[index][currIndex];
-            var line = <div>{"<sys:String x:Key=" + `${key}` + ">"+ `${value}`+ "</sys:String>"}</div>
+            var line = <div>{"<sys:String x:Key=\"" + `${key}` + "\">"+ `${value}`+ "</sys:String>"}</div>
             self.resultArray.push(line);
         });
         this.setState({resultArray: self.resultArray});

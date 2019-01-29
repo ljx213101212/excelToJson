@@ -40,13 +40,16 @@ class SheetJSApp extends React.Component {
             selectedOption: "USA",
             optionIndexMap:{},
             sequenceArray:[],
-            isDisplayXaml:true
+            isDisplayXaml:true,
+            isDisplayXamlKeys:false,
+            keyIndex: -1
         };
         this.handleFile = this.handleFile.bind(this);
         this.handleXamlFileChange = this.handleXamlFileChange.bind(this);
         this.exportFile = this.exportFile.bind(this);
         this.exportJson = this.exportJson.bind(this);
         this.exportXaml = this.exportXaml.bind(this);
+        this.toggleXamlKeys = this.toggleXamlKeys.bind(this);
         this.handleSelection = this.handleSelection.bind(this);
 
         this.outJsonRef = React.createRef();
@@ -90,6 +93,9 @@ class SheetJSApp extends React.Component {
                     if (val in self.state.optionIndexMap){
                         self.state.optionIndexMap[val] = index;
                     }
+                    if (val.toLowerCase() === "key"){
+                        self.state.keyIndex = index;
+                    }
                 });
             }
         }
@@ -114,9 +120,13 @@ class SheetJSApp extends React.Component {
         XLSX.writeFile(wb, "sheetjs.xlsx")
     };
 
+    toggleXamlKeys(){
+        this.setState({isDisplayXamlKeys: !this.state.isDisplayXamlKeys});
+    }
+
     exportXaml(){
         this.setState({isDisplayXaml: true});
-        this.outLineTextRef.current.updateTextArea(this.state.data, this.state.sequenceArray, this.state.selectedOption , this.state.optionIndexMap);
+        this.outLineTextRef.current.updateTextArea(this.state.data, this.state.selectedOption , this.state.optionIndexMap ,this.state.keyIndex);
        
     }
 
@@ -131,7 +141,8 @@ class SheetJSApp extends React.Component {
             <div className="ExcelToJson">
 
                 <ReadXaml handleXamlFileChange = {this.handleXamlFileChange}/>
-                {/* <OutLineText ref= { this.outLineTextRef} data={this.state.sequenceArray }></OutLineText> */}
+                <button disabled={!this.state.sequenceArray.length} className="btn btn-success" onClick={this.toggleXamlKeys}>Show/Hide Xaml Keys</button>
+                <OutLineText ref= { this.outLineTextRef} data={this.state.sequenceArray } isDisplay={this.state.isDisplayXamlKeys}></OutLineText>
                 <DragDropFile handleFile={this.handleFile}>
                     <div className="row"><div className="col-xs-12">
                         <DataInput handleFile={this.handleFile} accept={SheetJSFT} />
