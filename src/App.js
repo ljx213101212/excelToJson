@@ -14,8 +14,8 @@ class App extends Component {
       <div className="App">
         <div className="Helloworld">
           <Game />
-          {/* <SheetJSApp/> */}
-          <ReadExcel />
+          <SheetJSApp/>
+          {/* <ReadExcel /> */}
         </div>
       </div>
     );
