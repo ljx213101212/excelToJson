@@ -12,7 +12,7 @@ import IsNotBlankArray from '../Utils/CommonData';
 
 const options = [
     { value: 'GER', label: 'Dutch' },
-    { value: 'USA', label: 'United State of America' },
+    { value: 'Text to translate', label: 'United State of America' },
     { value: 'SPN', label: 'Spanish' },
     { value: 'FRN', label: 'French' },
     { value: 'JPN', label: 'Japanese' },
@@ -20,7 +20,7 @@ const options = [
     { value: 'POB', label: 'Portuguese' },
     { value: 'RUS', label: 'Russian' },
     { value: 'CHS', label: 'Chinese Simplified' },
-    { value: 'CHT', label: 'Chinese Taiwan' }
+    { value: 'CHT', label: 'Chinese Taiwan'}
 ];
 
 /* xlsx.js (C) 2013-present  SheetJS -- http://sheetjs.com */
@@ -37,7 +37,7 @@ class SheetJSApp extends React.Component {
             data: [], /* Array of Arrays e.g. [["a","b"],[1,2]] */
             cols: [],  /* Array of column objects e.g. { name: "C", K: 2 } */
             ws: null,
-            selectedOption: "USA",
+            selectedOption: {value:"Text to translate", label: 'United State of America' },
             optionIndexMap:{},
             sequenceArray:[],
             isDisplayXaml:true,

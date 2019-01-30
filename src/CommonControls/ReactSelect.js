@@ -12,7 +12,7 @@ class ReactSelect extends React.Component {
     render() {
         return (
             <div className="form-group">
-                <Select options={ this.props.options} onChange={this.handleSelectChange} defaultValue={{ value: 'us', label: 'United State of America' }} />
+                <Select options={ this.props.options} onChange={this.handleSelectChange} defaultValue={{ value: 'Text to translate', label: 'United State of America' }} />
             </div>
         );
     };
