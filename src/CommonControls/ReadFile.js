@@ -50,9 +50,11 @@ class SheetJSApp extends React.Component {
         this.exportJson = this.exportJson.bind(this);
         this.exportXaml = this.exportXaml.bind(this);
         this.toggleXamlKeys = this.toggleXamlKeys.bind(this);
+        this.copyXamlKeys = this.copyXamlKeys.bind(this);
         this.handleSelection = this.handleSelection.bind(this);
 
         this.outJsonRef = React.createRef();
+        this.outXamlKeyRef = React.createRef();
         this.outLineTextRef = React.createRef();
     };
     handleFile(file/*:File*/) {
@@ -102,6 +104,7 @@ class SheetJSApp extends React.Component {
     }
 
     handleXamlFileChange(arr,map) {
+        this.outXamlKeyRef.current.updateXamlKeyArea(arr);
         this.setState({ sequenceArray:arr});
         //this.outLineTextRef.current.getRenderData();
     }
@@ -124,6 +127,12 @@ class SheetJSApp extends React.Component {
         this.setState({isDisplayXamlKeys: !this.state.isDisplayXamlKeys});
     }
 
+    copyXamlKeys(){
+        if (this.state.isDisplayXamlKeys){
+            this.outXamlKeyRef.current.copyXamlKeysToClipboard();
+        }
+    }
+
     exportXaml(){
         this.setState({isDisplayXaml: true});
         this.outLineTextRef.current.updateTextArea(this.state.data, this.state.selectedOption , this.state.optionIndexMap ,this.state.keyIndex);
@@ -142,7 +151,8 @@ class SheetJSApp extends React.Component {
 
                 <ReadXaml handleXamlFileChange = {this.handleXamlFileChange}/>
                 <button disabled={!this.state.sequenceArray.length} className="btn btn-success" onClick={this.toggleXamlKeys}>Show/Hide Xaml Keys</button>
-                <OutLineText ref= { this.outLineTextRef} data={this.state.sequenceArray } isDisplay={this.state.isDisplayXamlKeys}></OutLineText>
+                <button disabled={!this.state.sequenceArray.length} className="btn btn-success" onClick={this.copyXamlKeys}>Copy Xaml Keys to clip board.</button>
+                <OutLineText ref= { this.outXamlKeyRef} isDisplay={this.state.isDisplayXamlKeys}></OutLineText>
                 <DragDropFile handleFile={this.handleFile}>
                     <div className="row"><div className="col-xs-12">
                         <DataInput handleFile={this.handleFile} accept={SheetJSFT} />

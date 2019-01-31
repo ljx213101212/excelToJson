@@ -6,9 +6,42 @@ class OutLineText extends React.Component {
         super(props); 
         this.resultArray = [];
         this.state = {
-            resultArray : this.resultArray
+            resultArray : this.resultArray,
+            showResult:false
         }
+
     };
+
+    updateXamlKeyArea(sequenceArray){
+        var self = this;
+        this.resultArray = [];
+        sequenceArray.forEach(val => {
+            var line = <div>{val}</div>
+            self.resultArray.push(line);
+        });
+        this.setState({resultArray: self.resultArray});
+    }
+
+    
+    copyXamlKeysToClipboard(){
+
+        let range = document.createRange();
+        range.setStart(this.refs.outXamlKeyRef, 0);
+        range.setEnd(this.refs.outXamlKeyRef, 0);
+        range.selectNode(this.refs.outXamlKeyRef);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+    }
+
+
+    showResult(){
+        this.setState({showResult: true});
+    }
+
+    hideResult(){
+        this.setState({showResult:false});
+    }
 
     updateTextArea(data, selectedOption, optionIndexMap, keyIndex){
         var self = this;
@@ -25,11 +58,13 @@ class OutLineText extends React.Component {
         });
         this.setState({resultArray: self.resultArray});
     };
+
+   
     
     render() {
         if (!this.props.isDisplay){return null;}
         return (
-            <div className="result-container text-left">
+            <div className="result-container text-left" ref="outXamlKeyRef">
                 {this.state.resultArray}
             </div>
         )

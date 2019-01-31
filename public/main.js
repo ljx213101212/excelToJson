@@ -38,7 +38,7 @@ function createWindow() {
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3001"
-      : `file://${path.join(__dirname, "../build/index.html")}`
+      : `file://${path.join(__dirname, "/index.html")}`
   );
 
   //Add React Dev tools
