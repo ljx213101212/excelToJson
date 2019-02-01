@@ -15,8 +15,8 @@ class OutLineText extends React.Component {
     updateXamlKeyArea(sequenceArray){
         var self = this;
         this.resultArray = [];
-        sequenceArray.forEach(val => {
-            var line = <div>{val}</div>
+        sequenceArray.forEach( (val,index) => {
+            var line = <div key={index}>{val}</div>
             self.resultArray.push(line);
         });
         this.setState({resultArray: self.resultArray});
@@ -47,13 +47,16 @@ class OutLineText extends React.Component {
         var self = this;
         this.resultArray = [];
         if (!IsNotBlankArray(data)  || !selectedOption
-        || !optionIndexMap) { return ;}        
+        || !optionIndexMap) { return ;}
+        console.log(data);        
         data.forEach((val, index) => {
             if (index === 0) { return;}
             var currIndex = optionIndexMap[selectedOption.value];
             const key = data[index][keyIndex];
             const value = data[index][currIndex];
-            var line = <div>{"<sys:String x:Key=\"" + `${key}` + "\">"+ `${value}`+ "</sys:String>"}</div>
+            //Skip whitespace rows.
+            if (typeof key === "undefined") {return;}
+            var line = <div key={index}>{"<sys:String x:Key=\"" + `${key}` + "\">"+ `${value}`+ "</sys:String>"}</div>
             self.resultArray.push(line);
         });
         this.setState({resultArray: self.resultArray});

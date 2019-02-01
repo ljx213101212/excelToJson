@@ -6,29 +6,44 @@ class OutJson extends React.Component {
         this.state = {
             renderArray: []
         }
+
     };
 
-    updateTextArea(data, sequenceArray, selectedOption, optionIndexMap) {
-        if (!IsNotBlankArray(data) || !IsNotBlankArray(sequenceArray) || !selectedOption
+    updateTextArea(data, selectedOption, optionIndexMap, keyIndex) {
+        if (!IsNotBlankArray(data) || !selectedOption
         || !optionIndexMap) { return ;}
         var newArray = [];
-        sequenceArray.forEach((val, index) => {
+        console.log(data);  
+        data.forEach((val, index) => {
             if (index === 0) { return;}
             var newObj = {};
-            if (!IsNotBlankArray(data[index])){return;}
+            if (!IsNotBlankArray(val)){return;}
             var currIndex = optionIndexMap[selectedOption.value];
-            newObj[val] = data[index][currIndex];
+            var currKey = val[keyIndex];
+            newObj[currKey] = val[currIndex];
             newArray.push(newObj);
         });
         this.setState({renderArray:newArray});
        console.log(this.state.renderArray);
     }
+
+    copyJsonToClipboard(){
+
+        let range = document.createRange();
+        range.setStart(this.refs.outJsonRef, 0);
+        range.setEnd(this.refs.outJsonRef, 0);
+        range.selectNode(this.refs.outJsonRef);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+    }
+
     render() {
         if (!this.props.isDisplay){return null;}
         return (
-            <div className="result-container">
+            <div className="result-container" ref="outJsonRef">
                 <textarea id="result" className="result-wrapper-2" cols={100} rows={100}
-                    value={JSON.stringify(this.state.renderArray, null, "\t")}>
+                    value={JSON.stringify(this.state.renderArray, null, "\t")} readOnly>
                 </textarea>
             </div>
         )

@@ -26,6 +26,21 @@
   text-align: left;
 }
 
+.dotted-line {
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.dotted-line:after {
+  content: "..........................................................................................................";
+  letter-spacing: 6px;
+  font-size: 30px;
+  color: #9cbfdb;
+  display: inline-block;
+  vertical-align: 3px;
+  padding-left: 10px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -51,6 +51,7 @@ class SheetJSApp extends React.Component {
         this.exportXaml = this.exportXaml.bind(this);
         this.toggleXamlKeys = this.toggleXamlKeys.bind(this);
         this.copyXamlKeys = this.copyXamlKeys.bind(this);
+        this.copyResults = this.copyResults.bind(this);
         this.handleSelection = this.handleSelection.bind(this);
 
         this.outJsonRef = React.createRef();
@@ -133,6 +134,16 @@ class SheetJSApp extends React.Component {
         }
     }
 
+    copyResults(){
+        if (this.state.data.length){
+            if(this.state.isDisplayXaml){
+                this.outLineTextRef.current.copyXamlKeysToClipboard();
+            }else{
+                this.outJsonRef.current.copyJsonToClipboard();
+            }
+        }
+    }
+
     exportXaml(){
         this.setState({isDisplayXaml: true});
         this.outLineTextRef.current.updateTextArea(this.state.data, this.state.selectedOption , this.state.optionIndexMap ,this.state.keyIndex);
@@ -142,17 +153,21 @@ class SheetJSApp extends React.Component {
     exportJson() {
         /* convert state to workbook */
         this.setState({isDisplayXaml: false});
-        this.outJsonRef.current.updateTextArea(this.state.data, this.state.sequenceArray, this.state.selectedOption , this.state.optionIndexMap);
+        this.outJsonRef.current.updateTextArea(this.state.data, this.state.selectedOption , this.state.optionIndexMap, this.state.keyIndex);
         
     }
     render() {
         return (
             <div className="ExcelToJson">
-
+                <div>Upload a xaml file and extract keys from Xaml</div>
                 <ReadXaml handleXamlFileChange = {this.handleXamlFileChange}/>
                 <button disabled={!this.state.sequenceArray.length} className="btn btn-success" onClick={this.toggleXamlKeys}>Show/Hide Xaml Keys</button>
                 <button disabled={!this.state.sequenceArray.length} className="btn btn-success" onClick={this.copyXamlKeys}>Copy Xaml Keys to clip board.</button>
                 <OutLineText ref= { this.outXamlKeyRef} isDisplay={this.state.isDisplayXamlKeys}></OutLineText>
+
+                <h2 className="dotted-line"></h2>
+
+                <div>Upload a translated excel file and get Xaml/json file</div>
                 <DragDropFile handleFile={this.handleFile}>
                     <div className="row"><div className="col-xs-12">
                         <DataInput handleFile={this.handleFile} accept={SheetJSFT} />
@@ -161,6 +176,7 @@ class SheetJSApp extends React.Component {
                     <div className="row"><div className="col-xs-12">
                         <button disabled={!this.state.data.length} className="btn btn-success" onClick={this.exportXaml}>ExportXaml</button>
                         <button disabled={!this.state.data.length} className="btn btn-success" onClick={this.exportJson}>ExportJson</button>
+                        <button disabled={!this.state.data.length} className="btn btn-success" onClick={this.copyResults}>Copy results to clip board.</button>
                     </div></div>
                     <OutLineText ref= {this.outLineTextRef} data={this.state.data} isDisplay ={this.state.isDisplayXaml}/>
                     <OutJson data={this.state.data} ref={this.outJsonRef} isDisplay ={!this.state.isDisplayXaml}/>
