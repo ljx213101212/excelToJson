@@ -1,0 +1,78 @@
+{
+  "name": "electron_quick_start",
+  "version": "1.0.0",
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "description": "A minimal Electron application",
+  "main": "public/main.js",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env PORT=3001 BROWSER=none yarn react-start\" \"wait-on http://localhost:3001 && electron .\"",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "dev": "electron-webpack dev",
+    "dev2": "nf start -p 3001"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "electronWebpack": {
+    "main": {
+      "sourceDirectory": "public"
+    },
+    "renderer": {
+      "sourceDirectory": null
+    }
+  },
+  "dependencies": {
+    "cross-env": "5.1.6",
+    "electron-is-dev": "0.3.0",
+    "electron-log": "^2.2.6",
+    "react": "16.4.0",
+    "react-dom": "16.4.0",
+    "setup": "0.0.3",
+    "update-electron-app": "^1.2.0",
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "concurrently": "3.5.1",
+    "electron": "^4.0.2",
+    "electron-builder": "^20.15.1",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-webpack": "^2.6.2",
+    "foreman": "^2.0.0",
+    "prettier": "^1.4.4",
+    "react-scripts": "^2.1.3",
+    "react-select": "^2.3.0",
+    "wait-on": "2.1.0",
+    "webpack": "4.19.1",
+    "xlsx": "^0.14.1"
+  },
+  "build": {
+    "appId": "com.electron.electron-with-create-react-app",
+    "win": {
+      "iconUrl": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
+    },
+    "directories": {
+      "buildResources": "public"
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

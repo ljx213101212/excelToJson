@@ -181,9 +181,6 @@ class SheetJSApp extends React.Component {
                     <OutLineText ref= {this.outLineTextRef} data={this.state.data} isDisplay ={this.state.isDisplayXaml}/>
                     <OutJson data={this.state.data} ref={this.outJsonRef} isDisplay ={!this.state.isDisplayXaml}/>
                 </DragDropFile>
-
-
-
             </div>
         );
     };
